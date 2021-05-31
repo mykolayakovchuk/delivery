@@ -60,12 +60,12 @@ switch ($_GET["menu"]) {
     break;
     //Все задачи; 
     default:
-       echo "index";
        $Controller= new ControllerUser;
        $query=$Controller->generateQuery();
        $Model= new Model($connection);
        $tasks=$Model->getFromDatabase($query);
        $View= new View;
+       echo ($View->createPagination($Model->getNumberRows()));
        echo ($View->createViewForUser($tasks));
     
 }

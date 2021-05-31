@@ -1,8 +1,8 @@
 <?php
 /**Класс обращения к БД
- * 
- * return PDO object
+ *
  */
+
 class Model 
 {
     function __construct($connection) {
@@ -10,9 +10,20 @@ class Model
     }
 
     protected $connection;//PDO подключение к БД
-
+    /**Функция выполнения запроса к БД
+     * 
+     * return PDO object
+     */
     function getFromDatabase($query){
         return $this->connection->query($query);
+    }
+    /**Функция подсчета строк в таблице
+     * 
+     * return int
+     */
+    function getNumberRows(){
+        $numberRows = $this->connection->query("SELECT COUNT(*) FROM del_task")->fetchColumn();
+        return $numberRows;
     }
 
  }
