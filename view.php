@@ -59,7 +59,8 @@ class View
      * 
      */
     function createPagination($rowsTable){
-        $html="<div class='pagination'>";
+        $html="<ul class='pagination'>";
+        $html=$html."<li><a href='index.php?page=1'>Начало</a></li>";
         if (isset($_GET["page"])){
             $currentPage=$_GET["page"];
         }else{
@@ -67,11 +68,11 @@ class View
         }
         $counter=1;
         do {
-            $html=$html."<button>".$currentPage."</button>";
+            $html=$html."<li><a href='index.php?page=".$currentPage."'>".$currentPage."</a></li>";
             $currentPage++;
             $counter++;
         } while (($currentPage > ceil($rowsTable/3)) xor ($counter < 11));
-        $html=$html."</div>";
+        $html=$html."</ul>";
         return $html;
     }
 
