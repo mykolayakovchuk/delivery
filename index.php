@@ -7,6 +7,9 @@
 <!--
 <link rel="stylesheet" href="**.css">
 -->
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 <!-- Load an icon library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="menu.css">
@@ -14,7 +17,13 @@
 </head>
 <body> 
 
-<?php 
+<?php
+//загрузка класса контроллера
+include "controllerUser.php";
+//загрузка класса модели
+include "model.php";
+//загрузка класса вида
+include "view.php";
 //подключение к базе
 //return $connection
 include "db-cfgLOCAL.php";
@@ -52,9 +61,17 @@ switch ($_GET["menu"]) {
     //Все задачи; 
     default:
        echo "index";
+       $Controller= new ControllerUser;
+       $query=$Controller->generateQuery();
+       $Model= new Model($connection);
+       $tasks=$Model->getFromDatabase($query);
+       $View= new View;
+       echo ($View->createViewForUser($tasks));
+    
 }
 echo "</main>";
 ?>
-
+<!-- Вариант 1: Bootstrap в связке с Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 </html> 
