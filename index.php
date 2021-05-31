@@ -38,7 +38,16 @@ switch ($_GET["menu"]) {
     break;
     //Добавить задачу; 
     case "addTask": 
-        echo "addTask";
+        include "addTaskForm.php";//форма добавления задачи
+        if (isset($_POST["idUser"]) && isset($_POST["email"]) && isset($_POST["textTask"])){
+            $addTaskQuery = $connection->prepare('INSERT INTO 
+            del_task (id, id_user, email, text_task) VALUES (NULL, :idUser, :email, :text_task)');
+            $addTaskQuery->bindParam(':idUser', $_POST["idUser"]);
+            $addTaskQuery->bindParam(':email', $_POST["email"]);
+            $addTaskQuery->bindParam(':text_task', $_POST["textTask"]);
+            $addTaskQuery->execute();    
+            echo "задача добавлена";
+        }
     break;
     //Все задачи; 
     default:
