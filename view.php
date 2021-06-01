@@ -5,8 +5,31 @@
  */
 class View
 {
-    //шапка таблицы Буцтрап
-    public $tableHead='
+    /**Функция анализа текущих GET параметров 
+     * Используется для формирования правильной
+     * ссылки при работе с пагинацией и формами
+     * $without -- указание на ключ элемента ГЕТ массива
+     * который не нужно включать в результирующую строку
+     * return String
+     */
+    function currentGetParameters($without=" "){
+        $getParamString = "";
+        $withoutFlag = FALSE;
+        foreach ($_GET as $key => $value){
+            if ($key == $without){
+                $withoutFlag = TRUE;
+                continue;
+            }else{
+                $getParamString = $getParamString."&".$key."=".$value;
+            }
+        }
+        if ($withoutFlag == FALSE){
+            $getParamString[0]="?";
+        }
+        return $getParamString;
+    }
+    //шапка таблицы
+    public $tableHead = '
     <table class="table table-hover">
         <thead>
             <tr>
@@ -19,7 +42,7 @@ class View
         </thead>
         <tbody>
     ';
-    //низ таблицы Буцтрап
+    //низ таблицы 
     public $tableBottom='
     </tbody>
     </table>
@@ -60,7 +83,7 @@ class View
      */
     function createPagination($rowsTable){
         $html="<ul class='pagination'>";
-        $html=$html."<li><a href='index.php?page=1'>Начало</a></li>";
+        $html=$html."<li><a href='index.php?page=1".$this->currentGetParameters("page")."'>Начало</a></li>";
         if (isset($_GET["page"])){
             $currentPage=$_GET["page"];
         }else{
@@ -68,7 +91,7 @@ class View
         }
         $counter=1;
         do {
-            $html=$html."<li><a href='index.php?page=".$currentPage."'>".$currentPage."</a></li>";
+            $html=$html."<li><a href='index.php?page=".$currentPage.$this->currentGetParameters("page")."'>".$currentPage."</a></li>";
             $currentPage++;
             $counter++;
         } while (($currentPage > ceil($rowsTable/3)) xor ($counter < 11));

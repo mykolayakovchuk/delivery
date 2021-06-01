@@ -68,7 +68,7 @@ switch ($_GET["menu"]) {
        $View= new View;
        echo ($View->createPagination($Model->getNumberRows()));
        echo ($View->createViewForUser($tasks));
-    
+       echo ($View->currentGetParameters());
 }
 echo "</main>";
 ?>
