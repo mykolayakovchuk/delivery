@@ -14,17 +14,12 @@ class View
      */
     function currentGetParameters($without=" "){
         $getParamString = "";
-        $withoutFlag = FALSE;
         foreach ($_GET as $key => $value){
             if ($key == $without){
-                $withoutFlag = TRUE;
                 continue;
             }else{
                 $getParamString = $getParamString."&".$key."=".$value;
             }
-        }
-        if ($withoutFlag == FALSE){
-            $getParamString[0]="?";
         }
         return $getParamString;
     }
