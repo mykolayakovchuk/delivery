@@ -67,8 +67,8 @@ switch ($_GET["menu"]) {
        $tasks=$Model->getFromDatabase($query);
        $View= new View;
        echo ($View->createPagination($Model->getNumberRows()));
+       echo ($View->createFiltartionForm($Model));
        echo ($View->createViewForUser($tasks));
-       echo ($View->currentGetParameters());
 }
 echo "</main>";
 ?>

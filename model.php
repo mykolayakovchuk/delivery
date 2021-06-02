@@ -9,6 +9,16 @@ class Model
         $this->connection = $connection;
     }
 
+    /**запрос для вывода всех пользователей
+     * 
+     */
+    public $allUsersQuery="SELECT * FROM del_user";
+
+    /**запрос для вывода всех статусов
+     * 
+     */
+    public $allStatusQuery="SELECT * FROM del_status";
+
     protected $connection;//PDO подключение к БД
     /**Функция выполнения запроса к БД
      * 
@@ -25,6 +35,7 @@ class Model
         $numberRows = $this->connection->query("SELECT COUNT(*) FROM del_task")->fetchColumn();
         return $numberRows;
     }
+
 
  }
 ?>

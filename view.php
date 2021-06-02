@@ -47,6 +47,7 @@ class View
     </tbody>
     </table>
     ';
+
     /**функция создания вида задач для пользователей
      * возвращает таблицу HTML
      * заполненную данными из БД
@@ -54,7 +55,6 @@ class View
      * return String
      * 
      */
-
     function createViewForUser($objectPDO){
         $table=$this->tableHead;
         foreach ($objectPDO as $row){
@@ -75,6 +75,34 @@ class View
         $table=$table.$this->tableBottom;
         return $table;
     }
+
+    /**функция создания формы для фильтрации данных
+     * принимает объект модели
+     * возвращает форму для выбора гет параметров для фильтрации данных
+     *  
+     * return String
+     * 
+     */
+    function createFiltartionForm($Model){
+        $allUsers = $Model->getFromDatabase($Model->allUsersQuery);
+        $allStatuses = $Model->getFromDatabase($Model->allStatusQuery);
+        $html='<form action="index.php" method="GET">';
+        $html=$html.$this->tableHead;
+        $html=$html.'<tr><th scope="row"></th><td><select name="filteruser">
+        <option value=""></option>';
+        foreach ($allUsers as $user){
+            $html=$html.'<option value='.$user['id'].'>'.$user['username'].'</option>';
+        }
+        $html=$html.'</select></td><td></td><td></td><td>
+                    <select name="filterstatus">
+                    <option value=""></option>';
+        foreach ($allStatuses as $status){
+            $html=$html.'<option value='.$status['id'].'>'.$status['status_name'].'</option>';
+        }
+        $html = $html.'</select></tr>'.$this->tableBottom.'<input type="submit" value="ФИЛЬТРОВАТЬ ДАННЫЕ"></form>';
+        return $html;
+    }
+    
 
     /**функция создания кнопок пагинации
      * 
