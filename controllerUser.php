@@ -18,10 +18,11 @@ class ControllerUser
             $pagination=0;
         }
         $query="SELECT del_task.id, del_user.username, del_task.email, del_task.text_task, id_status
-        FROM del_task 
+        FROM del_task
         LEFT JOIN del_user
-        ON del_task.id_user = del_user.id
-        ORDER BY del_task.id
+        ON del_task.id_user = del_user.id".
+        self::queryFilter() 
+        ." ORDER BY del_task.id
         LIMIT ".$pagination.", 3;";
         return $query;
     }
@@ -32,6 +33,23 @@ class ControllerUser
  * return String
  * 
  */
+    public static function queryFilter(){
+        $queryPartArray=[];
+        $queryPart="";
+        if (isset($_GET["filteruser"]) && $_GET["filteruser"] != ""){
+            $queryPartArray[]="id_user = '".$_GET["filteruser"]."'";
+        }
+        if (isset($_GET["filterstatus"]) && $_GET["filterstatus"]!= ""){
+            $queryPartArray[]="id_status = '".$_GET["filterstatus"]."'";
+        }
+        if (count($queryPartArray) > 1){
+            $queryPart = " WHERE ". implode(" AND ", $queryPartArray);
+        }else if ($queryPartArray[0] != NULL){
+            $queryPart = " WHERE ". $queryPartArray[0];
+        }
+        return $queryPart;
+    }
+
 
 }
 

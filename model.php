@@ -32,7 +32,7 @@ class Model
      * return int
      */
     function getNumberRows(){
-        $numberRows = $this->connection->query("SELECT COUNT(*) FROM del_task")->fetchColumn();
+        $numberRows = $this->connection->query("SELECT COUNT(*) FROM del_task".ControllerUser::queryFilter())->fetchColumn();
         return $numberRows;
     }
 
