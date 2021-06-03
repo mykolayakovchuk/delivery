@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
 <head>
@@ -34,7 +37,37 @@ echo "<main>";
 switch ($_GET["menu"]) {
     //вход в панель администратора; 
     case "admin":
-        echo "admin";
+        //форма для ввода и проверки пароля
+        if (isset($_SESSION["userRole"]) == FALSE 
+            && isset($_POST["login"]) == FALSE 
+            && isset($_POST["password"]) == FALSE){
+            include "authorizationForm.php";
+        }else if(isset($_SESSION["userRole"]) == FALSE 
+        && $_POST["login"] != "admin" 
+        && $_POST["password"] != "123"){
+            include "authorizationForm.php";
+            echo "Неверный пароль";
+        }else if(isset($_SESSION["userRole"]) == FALSE 
+        && $_POST["login"] == "admin" 
+        && $_POST["password"] == "123")
+        {
+            $_SESSION["userRole"] = "admin";
+        }
+        
+        //панель администратора
+        if ($_SESSION["userRole"] == "admin" ){
+            //выход из режима администратора
+            echo "welcome";
+            $Controller= new ControllerUser;
+            $query=$Controller->generateQuery();
+            $Model= new Model($connection);
+            $tasks=$Model->getFromDatabase($query);
+            $View= new View;
+            echo ($View->createPagination($Model->getNumberRows()));
+            echo ($View->createFiltartionForm($Model));
+            echo ($View->createViewForUser($tasks));
+        }
+
     break;
     //Добавить пользователя; 
     case "addUser":
@@ -71,6 +104,7 @@ switch ($_GET["menu"]) {
        echo ($View->createViewForUser($tasks));
 }
 echo "</main>";
+
 ?>
 <!-- Вариант 1: Bootstrap в связке с Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
