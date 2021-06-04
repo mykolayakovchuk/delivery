@@ -62,7 +62,6 @@ switch ($_GET["menu"]) {
                 die();
             }
             //основная область работы администратора
-            echo "welcome";
             include "logoutButton.php";
             $Controller= new ControllerUser;
             $query=$Controller->generateQuery();
@@ -71,7 +70,12 @@ switch ($_GET["menu"]) {
             $View= new View;
             echo ($View->createPagination($Model->getNumberRows()));
             echo ($View->createFiltartionForm($Model));
-            echo ($View->createViewForUser($tasks));
+            echo ($View->createViewForAdmin($tasks));
+            if (isset($_GET["editTask"])){
+                $querySpecificTask=$Controller->generateQueryForSpecificTask($_GET["editTask"]);
+                $specificTask=$Model->getFromDatabase($querySpecificTask)->fetchAll();
+                echo $View->createEditTaskForm($specificTask);
+            }
         }
 
     break;

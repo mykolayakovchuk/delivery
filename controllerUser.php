@@ -50,7 +50,28 @@ class ControllerUser
         return $queryPart;
     }
 
+/**функция создания запроса
+ * для редактирования задачи
+ * return String
+ * 
+ */
+    public function updateTaskQuery($idTask, $textTask, $statusTask){
+        $query= "UPDATE";
+        return $query;
+    }
 
+/**функция создания строки запроса в БД
+ * Запрашиваем одну строку, для заполнения формы редактирования
+ * return String
+ */
+public function generateQueryForSpecificTask($idTask){
+    $query='SELECT del_task.id, del_user.username, del_task.email, del_task.text_task, id_status
+    FROM del_task
+    LEFT JOIN del_user
+    ON del_task.id_user = del_user.id
+    WHERE del_task.id ="'.$idTask.'";';
+    return $query;
+}
 }
 
 ?>

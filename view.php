@@ -71,6 +71,35 @@ class View
         return $table;
     }
 
+        /**функция создания вида задач для администратора
+     * возвращает таблицу HTML
+     * заполненную данными из БД
+     * и ссылкой на отображение формы для редактирования задачи
+     * return String
+     * 
+     */
+    function createViewForAdmin($objectPDO){
+        $table=$this->tableHead;
+        foreach ($objectPDO as $row){
+            if ($row['id_status'] == 1){
+                $status="В работе";
+            }else{
+                $status="Выполнено";
+            }
+            $table=$table.
+            '<tr>
+            <th scope="row">'.$row['id'].'</th>
+            <td>'.$row['username'].'</td>
+            <td>'.$row['email'].'</td>
+            <td>'.$row['text_task'].'</td>
+            <td>'.$status.'</td>
+            <td><a href="index.php?editTask='.$row['id'].$this->currentGetParameters("editTask").'">РЕДАКТИРОВАТЬ<a></td>
+          </tr>';
+        }
+        $table=$table.$this->tableBottom;
+        return $table;
+    }
+
     /**функция создания формы для фильтрации данных
      * принимает объект модели
      * возвращает форму для выбора гет параметров для фильтрации данных
@@ -124,6 +153,50 @@ class View
         $html=$html."</ul>";
         return $html;
     }
-
+    /**функция создания окошка редактирования задачи
+     * input $array (строка задачи из БД)
+     * return String
+     * 
+     */
+    function createEditTaskForm($array){
+        $currentGetArray=$this->currentGetParameters();
+        $currentGetArray[0]="?";
+        if ($array[0]["id_status"] == 1){
+            $html='<form action="index.php'.$currentGetArray.'" method="POST">
+                <p>
+                    <input type="radio" id="contactChoice1" name="idStatus" value="1" checked> 
+                    <label for="contactChoice1">ЗАДАЧА В РАБОТЕ</label>
+                    <input type="radio" id="contactChoice2" name="idStatus" value="2">
+                    <label for="contactChoice2">ЗАДАЧА ВЫПОЛНЕНА</label>
+                </p>
+                <p>
+                    <label for="textTask">Текст задачи</label>
+                    <textarea type="text" name="textTask" required>'.$array[0]["text_task"].'</textarea>
+                </p>
+                <p>
+                    <input type="submit" value="Редактировать задачу">
+                </p>
+        
+               </form>';
+        }else if($array[0]["id_status"] == 2){
+            $html='<form action="index.php'.$currentGetArray.'" method="POST">
+            <p>
+                <input type="radio" id="contactChoice1" name="idStatus" value="1"> 
+                <label for="contactChoice1">ЗАДАЧА В РАБОТЕ</label>
+                <input type="radio" id="contactChoice2" name="idStatus" value="2" checked>
+                <label for="contactChoice2">ЗАДАЧА ВЫПОЛНЕНА</label>
+            </p>
+            <p>
+                <label for="textTask">Текст задачи</label>
+                <textarea type="text" name="textTask" required>'.$array[0]["text_task"].'</textarea>
+            </p>
+            <p>
+                <input type="submit" value="Редактировать задачу">
+            </p>
+    
+           </form>';    
+        }
+        return $html;
+    }
  }
 ?>
