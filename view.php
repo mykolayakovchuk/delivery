@@ -82,6 +82,9 @@ class View
         $allUsers = $Model->getFromDatabase($Model->allUsersQuery);
         $allStatuses = $Model->getFromDatabase($Model->allStatusQuery);
         $html='<form action="index.php" method="GET">';
+        if (isset($_GET["menu"])){//добавляем Гет параметр в случае работы в панели администратора ($_GET["menu"] == admin)
+            $html=$html.'<input type="hidden" name="menu" value="'.$_GET["menu"].'">';
+        }
         $html=$html.$this->tableHead;
         $html=$html.'<tr><th scope="row"></th><td><select name="filteruser">
         <option value=""></option>';

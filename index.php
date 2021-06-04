@@ -57,7 +57,13 @@ switch ($_GET["menu"]) {
         //панель администратора
         if ($_SESSION["userRole"] == "admin" ){
             //выход из режима администратора
+            if($_POST["logout"] == "logout"){
+                unset($_SESSION["userRole"]);
+                die();
+            }
+            //основная область работы администратора
             echo "welcome";
+            include "logoutButton.php";
             $Controller= new ControllerUser;
             $query=$Controller->generateQuery();
             $Model= new Model($connection);
