@@ -7,3 +7,5 @@ test task
 This is primitive CRM System.
 Scheme of database you can find at DATABASE/delivery.sql
 You can check it at work at <a href="http://nik-portf.club/crm/">http://nik-portf.club/crm/</a>
+
+Password and login for administration mode you can find in index.php (see line 46))))))
