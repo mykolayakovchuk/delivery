@@ -75,6 +75,17 @@ switch ($_GET["menu"]) {
                 $querySpecificTask=$Controller->generateQueryForSpecificTask($_GET["editTask"]);
                 $specificTask=$Model->getFromDatabase($querySpecificTask)->fetchAll();
                 echo $View->createEditTaskForm($specificTask);
+                if (isset($_POST["idStatus"])
+                    && $_POST["idStatus"] != ""
+                    && isset($_POST["textTask"]) 
+                    && $_POST["textTask"] != ""){
+                        $updateQuery = $Controller->updateTaskQuery($_GET["editTask"], $_POST["textTask"], $_POST["idStatus"]);
+                        $Model->getFromDatabase($updateQuery);
+                        unset($_POST["idStatus"]);
+                        unset($_POST["textTask"]);
+                        echo "Данные внесены";
+                        die();
+                }
             }
         }
 

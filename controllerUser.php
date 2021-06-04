@@ -56,10 +56,13 @@ class ControllerUser
  * 
  */
     public function updateTaskQuery($idTask, $textTask, $statusTask){
-        $query= "UPDATE";
+        $query= 'UPDATE del_task
+                    SET text_task = "'.$textTask.'",
+                    id_status = "'.$statusTask.'"
+                    WHERE id = "'.$idTask.'"';
         return $query;
     }
-
+    
 /**функция создания строки запроса в БД
  * Запрашиваем одну строку, для заполнения формы редактирования
  * return String
