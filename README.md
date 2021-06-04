@@ -6,4 +6,4 @@ test task
 
 This is primitive CRM System.
 Scheme of database you can find at DATABASE/delivery.sql
-You can try it at use at <a href="http://nik-portf.club/crm/">http://nik-portf.club/crm/</a>
+You can check it at work at <a href="http://nik-portf.club/crm/">http://nik-portf.club/crm/</a>
