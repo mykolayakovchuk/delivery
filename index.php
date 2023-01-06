@@ -22,15 +22,15 @@ session_start();
 <body> 
 
 <?php
+//подключение к базе
+//return $connection
+include "db-cfgLOCAL.php";
 //загрузка класса контроллера
 include "controllerUser.php";
 //загрузка класса модели
 include "model.php";
 //загрузка класса вида
 include "view.php";
-//подключение к базе
-//return $connection
-include "db-cfgLOCAL.php";
 //основное меню приложения
 include "menu.php";
 echo "<main>";
